@@ -14,6 +14,11 @@ from django.contrib import messages
 #Create Admin Approval page
 
 def admin_approval(request):
+	#Get Counts
+	event_count=Event.objects.all().count()
+	venue_count=Venue.objects.all().count()
+	user_count=User.objects.all().count()
+
 
 	event_list = Event.objects.all().order_by('-event_date')
 
@@ -31,7 +36,8 @@ def admin_approval(request):
 			return redirect('list-events')
 		else:
 			return render(request, 'events/admin_approval.html',
-			{"event_list": event_list })
+			{"event_list": event_list, "event_count":event_count, "venue_count": venue_count,
+			 "user_count": user_count })
 
 	else:
 		messages.success(request, ("You are not authorized to approve/view this page"))
