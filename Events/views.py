@@ -11,9 +11,30 @@ from django.http import HttpResponse
 import csv
 from django.contrib import messages
 
-#Create Admin Approval page
+#show Event
+def show_event(request, event_id):
+	event = Event.objects.get(pk=event_id)
+	return render(request, 'events/show_event.html', {'event': event})
 
+#show events in a venue
+def venue_events(request, venue_id):
+	#grab the venue
+	venue = Venue.objects.get(id=venue_id)
+	#grab the events from that venue above
+	events = venue.event_set.all()
+
+	if events:
+		return render(request, 'events/venue_events.html', {'events': events})
+
+	else: 
+		messages.success(request, ("This venue has no events at this time..."))
+		return redirect('admin_approval')
+
+#Create Admin Approval page
 def admin_approval(request):
+	#Get the Venues
+	venue_list = Venue.objects.all()
+
 	#Get Counts
 	event_count=Event.objects.all().count()
 	venue_count=Venue.objects.all().count()
@@ -37,7 +58,7 @@ def admin_approval(request):
 		else:
 			return render(request, 'events/admin_approval.html',
 			{"event_list": event_list, "event_count":event_count, "venue_count": venue_count,
-			 "user_count": user_count })
+			 "user_count": user_count, "venue_list":venue_list })
 
 	else:
 		messages.success(request, ("You are not authorized to approve/view this page"))

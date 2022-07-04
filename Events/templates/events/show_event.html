@@ -1,11 +1,9 @@
-cd {% extends 'events/base.html' %}
+{% extends 'events/base.html' %}
 
 {% block content %}
-	
-	<h1>Events</h1>
-	
-{% for event in event_list %}
-	{% if event.approved == True %}
+
+<h1>Show Event</h1>
+{% if event.approved == True %}
 
 <div class="card">
   <div class="card-header">
@@ -38,7 +36,7 @@ cd {% extends 'events/base.html' %}
 
 	</div>
   	{% endif %}
-  {% endif%}
+{% endif%}
 	</Li>
 	</ul>
 
@@ -52,8 +50,5 @@ cd {% extends 'events/base.html' %}
 </li></ul>
 
 <br/><br/>
-	 {% endif %}
-{% endfor %}
-	
-
+{% endif %}	
 {% endblock%}
